@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de regra de 3</title>
+</head>
+<body>
+
+    <h1>Calculadora de regra de 3</h1>
+
+    <input type="number" id="a"> ----- <input type="number" id="b"><br><br>
+    <input type="number" id="c"> ----- X <br><br>
+
+    <input type="button" value="Calcular x" onclick="calcularX()">
+
+    <h1 id="ababuia"></h1>
+
+    <script>
+        function calcularX() {
+            var x = (b.value * c.value) / a.value;
+            ababuia.innerHTML = `x é igual a ${x}.`;
+        }
+    </script>
+
+</body>
+</html>
