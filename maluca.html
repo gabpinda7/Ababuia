@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      min-height: 100vh;
+      background-color: #f4f4f9;
+      padding: 40px 20px;
+      margin: 0;
+      flex-wrap: wrap;
+    }
+    .calculator {
+      width: 300px;
+      background-color: #333;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    .display {
+      width: 100%;
+      height: 60px;
+      background-color: #222;
+      color: #fff;
+      text-align: right;
+      padding: 10px 15px;
+      font-size: 2rem;
+      border: none;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      height: 50px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #555;
+      color: white;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #777;
+    }
+    button.operator {
+      background-color: #ff9500;
+    }
+    button.operator:hover {
+      background-color: #e08500;
+    }
+    button.clear {
+      background-color: #a5a5a5;
+      color: black;
+    }
+    button.clear:hover {
+      background-color: #d4d4d2;
+    }
+    button.equal {
+      background-color: #ff9500;
+      grid-column: span 2;
+    }
+    button.zero {
+      grid-column: span 2;
+    }
+    .history-container {
+      width: 300px;
+      height: 400px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+    .history-header h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: #333;
+    }
+    .btn-clear-history {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-clear-history:hover {
+      background-color: #c0392b;
+    }
+    .history-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .history-item {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .history-item .expression {
+      font-size: 0.85rem;
+      color: #777;
+    }
+    .history-item .result {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <input type="text" class="display" id="display" value="0" disabled>
+  <div class="buttons">
+    <button class="clear" onclick="ababuialimpar()">C</button>
+    <button class="clear" onclick="ababuiainverter()">+/-</button>
+    <button class="operator" onclick="ababuiaoperacao('/')">/</button>
+    <button class="operator" onclick="ababuiaoperacao('*')">*</button>
+
+    <button onclick="ababuiagravanome('7')">7</button>
+    <button onclick="ababuiagravanome('8')">8</button>
+    <button onclick="ababuiagravanome('9')">9</button>
+    <button class="operator" onclick="ababuiaoperacao('-')">-</button>
+
+    <button onclick="ababuiagravanome('4')">4</button>
+    <button onclick="ababuiagravanome('5')">5</button>
+    <button onclick="ababuiagravanome('6')">6</button>
+    <button class="operator" onclick="ababuiaoperacao('+')">+</button>
+
+    <button onclick="ababuiagravanome('1')">1</button>
+    <button onclick="ababuiagravanome('2')">2</button>
+    <button onclick="ababuiagravanome('3')">3</button>
+    <button class="equal" onclick="ababuiacalcular()">=</button>
+
+    <button class="zero" onclick="ababuiagravanome('0')">0</button>
+    <button onclick="ababuiaponto()">.</button>
+  </div>
+</div>
+
+<div class="history-container">
+  <div class="history-header">
+    <h2>Histórico</h2>
+    <button class="btn-clear-history" onclick="ababuiaapagatudo()">Limpar</button>
+  </div>
+  <ul class="history-list" id="historyList"></ul>
+</div>
+
+<script>
+  const ababuiavisor = document.getElementById('display');
+  let ababuiavalnow = '0';
+  let ababuiavalprev = null;
+  let ababuiaopatual = null;
+  let ababuiaresettela = false;
+
+  function ababuiaatualizatela() {
+    ababuiavisor.value = ababuiavalnow;
+  }
+
+  function ababuiagravanome(n) {
+    if (ababuiavalnow === '0' || ababuiaresettela) {
+      ababuiavalnow = n;
+      ababuiaresettela = false;
+    } else {
+      ababuiavalnow += n;
+    }
+    ababuiaatualizatela();
+  }
+
+  function ababuiaponto() {
+    if (ababuiaresettela) {
+      ababuiavalnow = '0.';
+      ababuiaresettela = false;
+    } else if (!ababuiavalnow.includes('.')) {
+      ababuiavalnow += '.';
+    }
+    ababuiaatualizatela();
+  }
+
+  function ababuiainverter() {
+    ababuiavalnow = (parseFloat(ababuiavalnow) * -1).toString();
+    ababuiaatualizatela();
+  }
+
+  function ababuiaoperacao(op) {
+    if (ababuiaopatual !== null && !ababuiaresettela) {
+      ababuiacalcular();
+    }
+    ababuiavalprev = parseFloat(ababuiavalnow);
+    ababuiaopatual = op;
+    ababuiaresettela = true;
+  }
+
+  function ababuiacalcular() {
+    if (ababuiaopatual === null || ababuiavalprev === null) return;
+
+    const n2 = parseFloat(ababuiavalnow);
+    let res = 0;
+
+    switch (ababuiaopatual) {
+      case '+':
+        res = ababuiavalprev + n2;
+        break;
+      case '-':
+        res = ababuiavalprev - n2;
+        break;
+      case '*':
+        res = ababuiavalprev * n2;
+        break;
+      case '/':
+        res = n2 !== 0 ? ababuiavalprev / n2 : 'Erro';
+        break;
+    }
+
+    if (res !== 'Erro') {
+      const objetoDados = {
+        txt: `${ababuiavalprev} ${ababuiaopatual} ${n2}`,
+        res: res.toString(),
+        time: new Date()
+      };
+      ababuiagrabdb(objetoDados);
+    }
+
+    ababuiavalnow = res.toString();
+    ababuiaopatual = null;
+    ababuiavalprev = null;
+    ababuiaresettela = true;
+    ababuiaatualizatela();
+  }
+
+  function ababuialimpar() {
+    ababuiavalnow = '0';
+    ababuiavalprev = null;
+    ababuiaopatual = null;
+    ababuiaresettela = false;
+    ababuiaatualizatela();
+  }
+
+  let ababuiaconexao;
+  const ababuiapedido = indexedDB.open('MinhaBaseCalculadora', 1);
+
+  ababuiapedido.onupgradeneeded = function(e) {
+    ababuiaconexao = e.target.result;
+    if (!ababuiaconexao.objectStoreNames.contains('tabelaCalc')) {
+      ababuiaconexao.createObjectStore('tabelaCalc', { keyPath: 'id', autoIncrement: true });
+    }
+  };
+
+  ababuiapedido.onsuccess = function(e) {
+    ababuiaconexao = e.target.result;
+    ababuiapegaBD();
+  };
+
+  ababuiapedido.onerror = function(e) {
+    console.error(e.target.errorCode);
+  };
+
+  function ababuiagrabdb(item) {
+    const acao = ababuiaconexao.transaction(['tabelaCalc'], 'readwrite');
+    const store = acao.objectStore('tabelaCalc');
+    store.add(item);
+
+    acao.oncomplete = function() {
+      ababuiadesenha(item);
+    };
+  }
+
+  function ababuiapegaBD() {
+    const listaUI = document.getElementById('historyList');
+    listaUI.innerHTML = '';
+
+    const acao = ababuiaconexao.transaction(['tabelaCalc'], 'readonly');
+    const store = acao.objectStore('tabelaCalc');
+    const ponteiro = store.openCursor();
+
+    ponteiro.onsuccess = function(e) {
+      const c = e.target.result;
+      if (c) {
+        ababuiadesenha(c.value);
+        c.continue();
+      }
+    };
+  }
+
+  function ababuiaapagatudo() {
+    const acao = ababuiaconexao.transaction(['tabelaCalc'], 'readwrite');
+    const store = acao.objectStore('tabelaCalc');
+    const req = store.clear();
+
+    req.onsuccess = function() {
+      document.getElementById('historyList').innerHTML = '';
+    };
+  }
+
+  function ababuiadesenha(item) {
+    const listaUI = document.getElementById('historyList');
+    const novoItem = document.createElement('li');
+    novoItem.className = 'history-item';
+
+    novoItem.innerHTML = `
+      <span class="expression">${item.txt} =</span>
+      <span class="result">${item.res}</span>
+    `;
+
+    listaUI.insertBefore(novoItem, listaUI.firstChild);
+  }
+</script>
+
+</body>
+</html>a
