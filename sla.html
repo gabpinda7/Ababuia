@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora</title>
+    
+    <style>
+      * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f9;
+      margin: 0;
+    }
+    .calculator {
+      width: 300px;
+      background-color: #333;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    .display {
+      width: 100%;
+      height: 60px;
+      background-color: #222;
+      color: #fff;
+      text-align: right;
+      padding: 10px 15px;
+      font-size: 2rem;
+      border: none;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      height: 50px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #555;
+      color: white;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #777;
+    }
+    button.operator {
+      background-color: #ff9500;
+    }
+    button.operator:hover {
+      background-color: #e08500;
+    }
+    button.clear {
+      background-color: #a5a5a5;
+      color: black;
+    }
+    button.clear:hover {
+      background-color: #d4d4d2;
+    }
+    button.equal {
+      background-color: #ff9500;
+      grid-column: span 2;
+    }
+    button.zero {
+      grid-column: span 2;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <input type="text" class="display" id="display" value="0" disabled>
+  <div class="buttons">
+    <button class="clear" onclick="limpar()">C</button>
+    <button class="clear" onclick="inverterSinal()">+/-</button>
+    <button class="operator" onclick="selecionarOperacao('/')">/</button>
+    <button class="operator" onclick="selecionarOperacao('*')">*</button>
+
+    <button onclick="adicionarNumero('7')">7</button>
+    <button onclick="adicionarNumero('8')">8</button>
+    <button onclick="adicionarNumero('9')">9</button>
+    <button class="operator" onclick="selecionarOperacao('-')">-</button>
+
+    <button onclick="adicionarNumero('4')">4</button>
+    <button onclick="adicionarNumero('5')">5</button>
+    <button onclick="adicionarNumero('6')">6</button>
+    <button class="operator" onclick="selecionarOperacao('+')">+</button>
+
+    <button onclick="adicionarNumero('1')">1</button>
+    <button onclick="adicionarNumero('2')">2</button>
+    <button onclick="adicionarNumero('3')">3</button>
+    <button class="equal" onclick="calcular()">=</button>
+
+    <button class="zero" onclick="adicionarNumero('0')">0</button>
+    <button onclick="adicionarPonto()">.</button>
+  </div>
+</div>
+
+<script>
+  const display = document.getElementById('display');
+  let valorAtual = '0';
+  let valorAnterior = null;
+  let operacaoPendente = null;
+  let reiniciarDisplay = false;
+
+  function atualizarDisplay() {
+    display.value = valorAtual;
+  }
+
+  function adicionarNumero(numero) {
+    if (valorAtual === '0' || reiniciarDisplay) {
+      valorAtual = numero;
+      reiniciarDisplay = false;
+    } else {
+      valorAtual += numero;
+    }
+    atualizarDisplay();
+  }
+
+  function adicionarPonto() {
+    if (reiniciarDisplay) {
+      valorAtual = '0.';
+      reiniciarDisplay = false;
+    } else if (!valorAtual.includes('.')) {
+      valorAtual += '.';
+    }
+    atualizarDisplay();
+  }
+
+  function inverterSinal() {
+    valorAtual = (parseFloat(valorAtual) * -1).toString();
+    atualizarDisplay();
+  }
+
+  function selecionarOperacao(operacao) {
+    if (operacaoPendente !== null && !reiniciarDisplay) {
+      calcular();
+    }
+    valorAnterior = parseFloat(valorAtual);
+    operacaoPendente = operacao;
+    reiniciarDisplay = true;
+  }
+
+  function calcular() {
+    if (operacaoPendente === null || valorAnterior === null) return;
+
+    const numAtual = parseFloat(valorAtual);
+    let resultado = 0;
+
+    switch (operacaoPendente) {
+      case '+':
+        resultado = valorAnterior + numAtual;
+        break;
+      case '-':
+        resultado = valorAnterior - numAtual;
+        break;
+      case '*':
+        resultado = valorAnterior * numAtual;
+        break;
+      case '/':
+        resultado = numAtual !== 0 ? valorAnterior / numAtual : 'Erro';
+        break;
+    }
+
+    valorAtual = resultado.toString();
+    operacaoPendente = null;
+    valorAnterior = null;
+    reiniciarDisplay = true;
+    atualizarDisplay();
+  }
+
+  function limpar() {
+    valorAtual = '0';
+    valorAnterior = null;
+    operacaoPendente = null;
+    reiniciarDisplay = false;
+    atualizarDisplay();
+  }
+</script>
+
+</body>
+</html>
