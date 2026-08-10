@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercícios de Manipulação do DOM</title>
+  <style>
+
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+    }
+    #oculto {
+      display: none;
+    }
+    .caixa {
+      width: 50px;
+      height: 50px;
+      background-color: #ddd;
+      display: inline-block;
+      margin-right: 5px;
+      text-align: center;
+      line-height: 50px;
+    }
+    img {
+      display: block;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="titulo">Título Original</h1>
+
+  <hr>
+
+  <p class="destaque">Este parágrafo terá sua cor alterada para azul.</p>
+
+  <hr>
+
+  <ul>
+    <li class="item">Item 1</li>
+    <li class="item">Item 2</li>
+    <li class="item">Item 3</li>
+  </ul>
+
+  <hr>
+
+  <p id="oculto">Este é o texto que estava oculto!</p>
+  <button type="button" onclick="mostrarTextoOculto()">Mostrar Texto</button>
+
+  <hr>
+
+  <form onsubmit="event.preventDefault(); atualizarTexto();">
+    <input type="text" id="entrada" placeholder="Digite algo...">
+    <button type="submit">Atualizar</button>
+  </form>
+  <p id="resultado">O texto aparecerá aqui.</p>
+
+  <hr>
+
+
+  <h3>Caixas:</h3>
+  <div class="caixa">1</div>
+  <div class="caixa">2</div>
+  <div class="caixa">3</div>
+  <div class="caixa">4</div>
+  <div class="caixa">5</div>
+
+  <hr>
+
+
+  <div>
+    <img id="foto" src="file:///C:/Users/gaabz/Pictures/philadelphia-pennsylvania-erick-pulgar-of-cr-flamengo-walks-onto-the-pitch-prior-to-the-fifa.webp" alt="Imagem">
+    <br>
+    <button type="button" onclick="mudarImagem()">Trocar Imagem</button>
+  </div>
+
+  <hr>
+
+ 
+  <button type="button" class="botao-estiloso">Botão Estiloso</button>
+
+  <hr>
+
+
+  <p id="mensagem">Texto antigo da mensagem.</p>
+
+  <hr>
+
+ 
+  <p class="comentario">bom césar?!</p>
+  <p class="comentario">gostei das dicas de DOM.</p>
+  <p class="comentario">bem maneiro.</p>
+
+  <script>
+    
+    const titulo = document.getElementById('titulo');
+    titulo.textContent = 'Olá, Mundo!';
+
+   
+    const paragrafoDestaque = document.querySelector('.destaque');
+    paragrafoDestaque.style.color = 'blue';
+
+    const itens = document.querySelectorAll('.item');
+    itens.forEach(item => {
+      item.textContent = 'Item modificado';
+    });
+
+
+    function mostrarTextoOculto() {
+      const paragrafoOculto = document.getElementById('oculto');
+      paragrafoOculto.style.display = 'block';
+    }
+
+    
+    function atualizarTexto() {
+      const entrada = document.getElementById('entrada').value;
+      const resultado = document.getElementById('resultado');
+      resultado.textContent = entrada;
+    }
+
+    const caixas = document.querySelectorAll('.caixa');
+    console.log(`Quantidade de caixas encontradas: ${caixas.length}`);
+
+    function mudarImagem() {
+      const foto = document.getElementById('foto');
+      foto.src = 'file:///C:/Users/gaabz/Pictures/escudo-do-flamengo-capa-1.webp';
+    }
+
+
+    const botaoEstiloso = document.querySelector('.botao-estiloso');
+    botaoEstiloso.style.backgroundColor = '#4CAF50';
+    botaoEstiloso.style.color = 'white';
+    botaoEstiloso.style.padding = '10px 20px';
+    botaoEstiloso.style.border = 'none';
+    botaoEstiloso.style.borderRadius = '20px';
+    botaoEstiloso.style.cursor = 'pointer';
+
+
+    const mensagem = document.getElementById('mensagem');
+    mensagem.textContent = 'A mensagem foi alterada com sucesso usando getElementById!';
+
+    
+    const comentarios = document.querySelectorAll('.comentario');
+    comentarios.forEach(comentario => {
+      comentario.textContent = `Comentário: ${comentario.textContent}`;
+    });
+  </script>
+
+</body>
+</html>
