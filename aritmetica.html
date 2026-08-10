@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To com pressa</title>
+</head>
+<body>
+      <h1>Calculadora</h1>
+<script>
+        function somar() {
+            var x = document.getElementById('n1').value
+            var y = document.getElementById('n2').value
+            var resultado = parseFloat(x) + parseFloat(y)
+            document.getElementById('res').innerHTML = resultado
+            }
+                function subtrair() {
+                    var x = document.getElementById('n1').value
+                    var y = document.getElementById('n2').value
+                    var resultado = parseFloat(x) - parseFloat(y)
+                    document.getElementById('res').innerHTML = resultado
+            }
+                    function multiplicar() {
+                        var x = document.getElementById('n1').value
+                        var y = document.getElementById('n2').value
+                        var resultado = parseFloat(x) * parseFloat(y)
+                        document.getElementById('res').innerHTML = resultado
+            }
+                     function dividir() {
+                        var x = document.getElementById('n1').value
+                        var y = document.getElementById('n2').value
+                        var resultado = parseFloat(x) / parseFloat(y)
+                        document.getElementById('res').innerHTML = resultado
+            }
+            </script>
+
+            <input type="text" id="n1"><br>
+            <input type="text" id="n2"><br>
+            <input type="button" value="+" onClick="somar()">
+            <input type="button" value="-" onClick="subtrair()">
+                <input type="button" value="*" onClick="multiplicar()">
+                <input type="button" value="/" onclick="dividir()">
+            <br>
+            <p id="res">Aguardando valores...</p>
+</body>
+</html>
